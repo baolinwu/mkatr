@@ -1,16 +1,6 @@
 # mkatr
  - An R pacakge implementing various statistical methods for testing variant-set association
 
-## SNP-set association tests using GWAS summary data
- - Reference
-    - Guo,B. and Wu,B. (2017) Statistical methods to detect novel genetic variants using publicly available GWAS summary data. *tech report*
- - Sample R codes
- ```r
- library(mkatr)
- R = cor(matrix(rnorm(500),100,5)*sqrt(0.8)+rnorm(100)*sqrt(0.2))
- Z = rnorm(5) + 0:4
- ASATZ(Z,R)
- ```
 
 ## On sequence-kernel association test of rare variant set
  - Reference
@@ -33,3 +23,15 @@ SKATOL(KAT.null(D,X), G, c(1.5,25.5))
 SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"))$p.value
 SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"), method="optimal.adj")$p.value
 ```
+
+
+## SNP-set association tests using GWAS summary data
+ - Reference
+    - Guo,B. and Wu,B. (2017) Statistical methods to detect novel genetic variants using publicly available GWAS summary data. *tech report*
+ - Sample R codes
+ ```r
+ library(mkatr)
+ R = cor(matrix(rnorm(500),100,5)*sqrt(0.8)+rnorm(100)*sqrt(0.2))
+ Z = rnorm(5) + 0:4
+ ASATZ(Z,R)
+ ```
