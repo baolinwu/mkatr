@@ -1,7 +1,7 @@
 # mkatr
  - An R pacakge implementing various statistical methods for testing variant-set association
 
-
+------
 ## On sequence-kernel association test of rare variant set
  - Reference
     - Wu,B., Pankow,J.S., Guan,W. (2015) Sequence kernel association analysis of rare variant set based on the marginal regression model for binary traits. *Genetic Epidemiology*, 39(6), 399-405.
@@ -24,7 +24,7 @@ SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"))$p.value
 SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"), method="optimal.adj")$p.value
 ```
 
-
+------
 ## SNP-set association tests using GWAS summary data
  - Reference
     - Guo,B. and Wu,B. (2017) Statistical methods to detect novel genetic variants using publicly available GWAS summary data. *tech report*
