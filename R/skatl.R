@@ -1,56 +1,3 @@
-### saddlepoint approx: modified from Lumley survey package.
-saddle = function(x,lambda){
-  d = max(lambda)
-  lambda = lambda/d
-  x = x/d
-  k0 = function(zeta) -sum(log(1-2*zeta*lambda))/2
-  kprime0 = function(zeta) sapply(zeta, function(zz) sum(lambda/(1-2*zz*lambda)))
-  kpprime0 = function(zeta) 2*sum(lambda^2/(1-2*zeta*lambda)^2)
-  n = length(lambda)
-  if (any(lambda < 0)) {
-    lmin = max(1/(2 * lambda[lambda < 0])) * 0.99999
-  } else if (x>sum(lambda)){
-    lmin = -0.01
-  } else {
-    lmin = -length(lambda)/(2*x)
-  }
-  lmax = min(1/(2*lambda[lambda>0]))*0.99999
-  hatzeta = uniroot(function(zeta) kprime0(zeta) - x, lower = lmin, upper = lmax, tol = 1e-08)$root
-  w = sign(hatzeta)*sqrt(2*(hatzeta*x-k0(hatzeta)))
-  v = hatzeta*sqrt(kpprime0(hatzeta))
-  if(abs(hatzeta)<1e-4){
-    return(NA)
-  } else{
-    return( pnorm(w+log(v/w)/w, lower.tail=FALSE) )
-  }
-}
-Sadd.pval = function(Q.all,lambda){
-  sad = rep(1,length(Q.all))
-  if(sum(Q.all>0)>0){
-    sad[Q.all>0] = sapply(Q.all[Q.all>0],saddle,lambda=lambda)
-  }
-  id = which(is.na(sad))
-  if(length(id)>0){
-    sad[id] = Liu.pval(Q.all[id], lambda)
-  }
-  return(sad)
-}
-### modified Liu method from Lee SKAT-O paper
-Liu.pval = function(Q, lambda){
-  c1 = rep(0,4); for(i in 1:4){ c1[i] = sum(lambda^i) }
-  muQ = c1[1];  sigmaQ = sqrt(2 *c1[2])
-  s1 = c1[3]/c1[2]^(3/2);  s2 = c1[4]/c1[2]^2
-  if(s1^2 > s2){
-    a = 1/(s1 - sqrt(s1^2 - s2));  d = s1 *a^3 - a^2;  l = a^2 - 2*d
-  } else {
-    l = 1/s2;  a = sqrt(l);  d = 0
-  }
-  muX = l+d;  sigmaX = sqrt(2)*a
-  
-  Q.Norm = (Q - muQ)/sigmaQ
-  Q.Norm1 = Q.Norm*sigmaX + muX
-  pchisq(Q.Norm1, df = l,ncp=d, lower.tail=FALSE)
-}
 Liu.qval.mod = function(pval, lambda){
   c1 = rep(0,4)
   c1[1] = sum(lambda); c1[2] = sum(lambda^2)
@@ -164,8 +111,8 @@ SKATL = function(obj,G, W.beta){
   }
   R = t(Gs*W/GL1)*W/GL1
   Gt1 = Gt*W
-  lam = svd(R, nu=0,nv=0)$d
-  KAT.pval(sum(Gt1^2), lam)
+  lam = eigen(R, sym=TRUE,only.val=TRUE)$val
+  KATpval(sum(Gt1^2), lam)
 }
 
 #' Optimal sequence kernel association test (SKAT-O) for binary trait based on marginal LRT
@@ -237,13 +184,13 @@ SKATOL = function(obj,G, W.beta, rho=c(0,0.1^2,0.2^2,0.3^2,0.4^2,0.5^2,0.5,1)){
   c1 = sqrt(1-rho1)*tmp;  c2 = tmp^2*R1/N^2
   for(k in 1:K1){
     mk = (1-rho[k])*R + c1[k]*RJ2 + c2[k]
-    Lamk[[k]] = pmax(svd(mk, nu=0,nv=0)$d, 0)
-    pval[k] = KAT.pval(Qw[k],Lamk[[k]])
+    Lamk[[k]] = eigen(mk,sym=TRUE,only.val=TRUE)$val
+    pval[k] = KATpval(Qw[k],Lamk[[k]])
   }
   Pmin = min(pval)
   qval = rep(0,K1)
   for(k in 1:K1) qval[k] = Liu.qval.mod(Pmin, Lamk[[k]])
-  lam = pmax(svd(R-outer(Rs,Rs)/R1, nu=0,nv=0)$d[-N], 0)
+  lam = eigen(R-outer(Rs,Rs)/R1, only.val=TRUE)$val
   tauk = (1-rho1)*R2/R1 + rho1*R1;  vp2 = 4*(R3/R1-R2^2/R1^2)
   MuQ = sum(lam);  VarQ = sum(lam^2)*2
   sd1 = sqrt(VarQ)/sqrt(VarQ+vp2)

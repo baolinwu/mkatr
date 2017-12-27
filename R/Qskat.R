@@ -56,8 +56,8 @@ SKATT <- function(obj,G, W.beta=c(1.25,25.5)){
   Gs = t(Ge)%*%Ge
   Gs = t(Gs/Ge1)/Ge1
   R = t(Gs*W)*W
-  lam = svd(R, nu=0,nv=0)$d
-  KAT.pval(Q, lam)
+  lam = eigen(R, sym=TRUE,only.val=TRUE)$val
+  KATpval(Q, lam)
 }
 
 ## Sequence kernel association test (SKAT) for quantitative trait based on several marginal statistics
@@ -81,12 +81,12 @@ SKATM <- function(obj,G, W.beta=c(1.25,25)){
   Gs = t(Ge)%*%Ge
   Gs = t(Gs/Ge1)/Ge1
   R = t(Gs*W)*W
-  lam = svd(R, nu=0,nv=0)$d
+  lam = eigen(R, sym=TRUE,only.val=TRUE)$val
   Q0 = sum(W^2*Ts^2)
   Q1 = sum(W^2*Ts^2*(obj$DF0-3)/(obj$DF0-1))
   Zs = -sign(Ts)*qnorm(pt(-abs(Ts),obj$DF0-1))
   Q2 = sum(W^2*Zs^2)
-  KAT.pval(c(Q0,Q1,Q2), lam)
+  KATpval(c(Q0,Q1,Q2), lam)
 }
 
 #' Optimal sequence kernel association test (SKAT-O) for quantitative trait based on marginal t-statistics
@@ -147,13 +147,13 @@ SKATOT = function(obj,G, W.beta=c(1.5,25.5), rho=c(0,0.1^2,0.2^2,0.3^2,0.4^2,0.5
   c1 = sqrt(1-rho1)*tmp;  c2 = tmp^2*R1/N^2
   for(k in 1:K1){
     mk = (1-rho[k])*R + c1[k]*RJ2 + c2[k]
-    Lamk[[k]] = pmax(svd(mk, nu=0,nv=0)$d, 0)
-    pval[k] = KAT.pval(Qw[k],Lamk[[k]])
+    Lamk[[k]] = eigen(mk, sym=TRUE,only.val=TRUE)$val
+    pval[k] = KATpval(Qw[k],Lamk[[k]])
   }
   Pmin = min(pval)
   qval = rep(0,K1)
   for(k in 1:K1) qval[k] = Liu.qval.mod(Pmin, Lamk[[k]])
-  lam = pmax(svd(R-outer(Rs,Rs)/R1, nu=0,nv=0)$d[-N], 0)
+  lam = eigen(R-outer(Rs,Rs)/R1, sym=TRUE,only.val=TRUE)$val
   tauk = (1-rho1)*R2/R1 + rho1*R1;  vp2 = 4*(R3/R1-R2^2/R1^2)
   MuQ = sum(lam);  VarQ = sum(lam^2)*2
   sd1 = sqrt(VarQ)/sqrt(VarQ+vp2)
@@ -168,7 +168,7 @@ SKATOT = function(obj,G, W.beta=c(1.5,25.5), rho=c(0,0.1^2,0.2^2,0.3^2,0.4^2,0.5
   katint = function(xpar){
     eta1 = sapply(xpar, function(eta0) min((qval-tauk*eta0)/(1-rho1)))
     x = (eta1-MuQ)*sd1 + MuQ
-    KAT.pval(x,lam)*dchisq(xpar,1)
+    KATpval(x,lam)*dchisq(xpar,1)
   }
   p.value = try({ T0 + integrate(katint, 0,q1,  subdivisions=1e3,abs.tol=1e-25)$val }, silent=TRUE)
   prec = 1e-4

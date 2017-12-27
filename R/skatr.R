@@ -41,7 +41,7 @@ SKATv <- function(obj,G, W.beta=c(1,25)){
   }
   R = t(Gs*W)*W
   Z = Zs*W
-  lam = svd(R, nu=0,nv=0)$d
+  lam = eigen(R, sym=TRUE,only.val=TRUE)$val
   SKAT.pval(sum(Z^2), lam)
 }
 ####
@@ -77,6 +77,6 @@ SKATh <- function(obj,G, W.beta=c(1,25)){
   }
   R = t(Gs*W)*W
   Z = Zs*W
-  lam = svd(R, nu=0,nv=0)$d
-  KAT.pval(sum(Z^2), lam)
+  lam = eigen(R, sym=TRUE,only.val=TRUE)$val
+  KATpval(sum(Z^2), lam)
 }
