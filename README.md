@@ -1,7 +1,7 @@
 # mkatr
  - An R pacakge implementing various statistical methods for testing variant-set association
 
-## 1. On seqence-kernel association test
+## 1. On sequence-kernel association test of rare variant set
  - Reference
     - Wu,B., Pankow,J.S., Guan,W. (2015) Sequence kernel association analysis of rare variant set based on the marginal regression model for binary traits. *Genetic Epidemiology*, 39(6), 399-405.
     - Wu,B., Guan,W., Pankow,J.S. (2016) On efficient and accurate calculation of significance p-values for sequence kernel association test of variant set. *Annals of human genetics*, 80(2), 123-135.
