@@ -1,4 +1,4 @@
-#' SNP-set association tests using GWAS summary Z-statistics
+#' SNP-set association tests using GWAS Summary data
 #'
 #' Compute p-values for the SNP-set tests using GWAS Z-statistics: variance components test (VC), sum test (ST), and adaptive test (AT).
 #' With less than two values of \eqn{\rho}'s, it outputs only p-values for VC and BT.
@@ -12,15 +12,15 @@
 #'   \item{pval}{ the list of all p-values }
 #'   \item{rho.est}{ estimated optimal \eqn{\rho} value }
 #' }
-#' @keywords ASATZ
+#' @keywords SATS
 #' @export
 #' @references
 #' Guo,B., Wu,B.(2017). Statistical methods to detect novel genetic variants using publicly available GWAS summary data. tech report.
 #' @examples
 #' R = cor(matrix(rnorm(500),100,5)*sqrt(0.8)+rnorm(100)*sqrt(0.2))
 #' Z = rnorm(5) + 0:4
-#' ASATZ(Z,R)
-ASATZ <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
+#' SATS(Z,R)
+SATS <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
   M = length(Z)
   if(is.null(W)) W = rep(1,M)
   ##

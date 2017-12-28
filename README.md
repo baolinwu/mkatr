@@ -32,5 +32,5 @@ SKATOL(KAT.null(D,X), G, c(1.5,25.5))
  library(mkatr)
  R = cor(matrix(rnorm(500),100,5)*sqrt(0.8)+rnorm(100)*sqrt(0.2))
  Z = rnorm(5) + 0:4
- ASATZ(Z,R)
+ SATS(Z,R)
  ```
