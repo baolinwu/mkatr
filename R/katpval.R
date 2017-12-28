@@ -87,3 +87,4 @@ Liu0.qval = function(pval, lambda){
   Qx = qchisq(pval,df=df,lower.tail=FALSE)
   (Qx - df)/sqrt(2*df)*param$sigmaQ + param$muQ
 }
+
