@@ -9,19 +9,18 @@
  
  - Sample R codes
 ```r
-library(CompQuadForm)
-library(SKAT)
 library(mkatr)
-## simulate outcomes
+### simulate outcomes
 X = matrix(rnorm(10000), 5000,2)
 D = rbinom(5000,1,0.5)
 G = matrix(rbinom(100000,2,0.01), 5000,10)
-## SKATL and SKATOL tests
+### SKATL and SKATOL tests
 SKATL(KAT.null(D,X), G, c(1.5,25.5))
 SKATOL(KAT.null(D,X), G, c(1.5,25.5))
-## compared to SKAT package
-SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"))$p.value
-SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"), method="optimal.adj")$p.value
+### compared to SKAT package
+## library(SKAT)
+## SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"))$p.value
+## SKAT(G, SKAT_Null_Model(D ~ X, out_type="D"), method="optimal.adj")$p.value
 ```
 
 ------
