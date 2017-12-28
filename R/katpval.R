@@ -1,6 +1,6 @@
 #' Compute the tail probability of weighted sum of 1-DF chi-square rvs
 #'
-#' Use Davies' method and apply a relative error bound (avoid redundant computations).
+#' Use Davies' method and apply a relative error bound (avoid redundant computations): efficient and accurate.
 #' @param Q.all  test statistics
 #' @param lambda  mixing coefficients
 #' @param acc  relative error bound
