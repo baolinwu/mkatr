@@ -88,3 +88,25 @@ Liu0.qval = function(pval, lambda){
   (Qx - df)/sqrt(2*df)*param$sigmaQ + param$muQ
 }
 
+### internal func
+liua.param = function(lambda){
+    c1 = rep(0,4); for(i in 1:4){ c1[i] = sum(lambda^i) }
+    muQ = c1[1];  sigmaQ = sqrt(2 *c1[2])
+    s1 = c1[3]/c1[2]^(3/2);  s2 = c1[4]/c1[2]^2
+    if(s1^2 > s2){
+      a = 1/(s1 - sqrt(s1^2 - s2));  d = s1 *a^3 - a^2;  l = a^2 - 2*d
+    } else {
+      l = 1/s1^2 
+      a = sqrt(l);  d = 0
+    }
+    muX = l+d;  sigmaX = sqrt(2)*a
+    list(l=l,d=d,muQ=muQ,muX=muX,sigmaQ=sigmaQ,sigmaX=sigmaX)
+}
+liua.qval <- function(pval, lambda){
+  param = liu1.param(lambda)
+  Qx = qchisq(pval,df=param$l,ncp=param$d, lower.tail=FALSE)
+  (Qx - param$muX)/param$sigmaX*param$sigmaQ + param$muQ
+}
+
+
+

@@ -1,14 +1,14 @@
 #' SNP-set association tests using GWAS summary Z-statistics
 #'
-#' Compute p-values for the SNP-set tests (VC, burden test, adaptive test) using GWAS Z-statistics.
-#' With less than two values of rho's, it outputs only p-values for VC and BT.
+#' Compute p-values for the SNP-set tests using GWAS Z-statistics: variance components test (VC), sum test (ST), and adaptive test (AT).
+#' With less than two values of \eqn{\rho}'s, it outputs only p-values for VC and BT.
 #' @param  Z summary Z-statistics for a set of SNPs from GWAS
 #' @param  R SNP pairwise LD matrix
 #' @param  W SNP weights. Default to equal weights
 #' @param  rho weights for burden test
 #' @return 
 #' \describe{
-#'   \item{p.value}{ p-values for Adaptive test, VC, and BT }
+#'   \item{p.value}{ p-values for AT, VC, and ST }
 #'   \item{pval}{ the list of all p-values }
 #'   \item{rho.est}{ estimated optimal \eqn{\rho} value }
 #' }
@@ -29,16 +29,16 @@ ASATZ <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
   R1 = sum(eta^2); R2 = sum(eta^2*lamR)
   c2 = outer(eta,eta)
   Lamq = eigen(diag(lamR) - R2/R1^2*c2, symmetric=TRUE,only.values=TRUE)$val
-  ## BT
+  ## ST
   Qb = sum(Zw)^2
   pvalb = pchisq(Qb/R1, 1,lower=FALSE)
   ## VC 
   Qv = sum(Zw^2)
   pvalv = KATpval(Qv,lamR)
-  ## A
+  ## AT
   L = length(rho)
   if(L<=2){
-    return(list(p.value=c(A=NULL, V=pvalv, B=pvalb), pval=pval) )
+    return(list(p.value=c(A=NULL, V=pvalv, S=pvalb), pval=pval) )
   } 
   L1 = L-1; rho1 = rho[-L]
   Qw = (1-rho)*Qv + rho*Qb
@@ -53,25 +53,24 @@ ASATZ <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
     pval[k] = KATpval(Qw[k],Lamk[[k]])
   }
   minP = min(pval)
+  ## if( (minP>1e-4)|(minP<1e-7) )    return(list(p.value=c(A=minP, V=pvalv, B=pvalb), pval=pval) )
+  L = length(rho)
   qval = rep(0,L1)
-  for(k in 1:L1) qval[k] = Liu0.qval(minP, Lamk[[k]])
-  Rs = rowSums(Rw); R3 = sum(Rs*colSums(Rw*Rs))
-  lam = eigen(Rw-outer(Rs,Rs)/R1,sym=TRUE,only.val=TRUE)$val
-  tauk = (1-rho1)*R2/R1 + rho1*R1;  vp2 = 4*(R3/R1-R2^2/R1^2)
-  MuQ = sum(lam);  VarQ = sum(lam^2)*2
-  sd1 = sqrt(VarQ)/sqrt(VarQ+vp2)
+  for(k in 1:L1) qval[k] = liua.qval(minP, Lamk[[k]])
   q1 = qchisq(minP,1,lower=FALSE)
+  tauk = (1-rho1)*R2/R1 + rho1*R1
   katint = function(xpar){
     eta1 = sapply(xpar, function(eta0) min((qval-tauk*eta0)/(1-rho1)))
-    x = (eta1-MuQ)*sd1 + MuQ
-    KATpval(x,lam)*dchisq(xpar,1)
+    KATpval(eta1,Lamq)*dchisq(xpar,1)
   }
   prec = 1e-4
   p.value = try({ minP + integrate(katint, 0,q1,  subdivisions=1e3,abs.tol=minP*prec)$val }, silent=TRUE)
   while(class(p.value)=='try-error'){
-    p.value = try({ minP + integrate(katint, 0,q1, abs.tol=minP*prec)$val }, silent=TRUE)
     prec = prec*2
+    p.value = try({ minP + integrate(katint, 0,q1, abs.tol=minP*prec)$val }, silent=TRUE)
   }
-  return(list(p.value=c(A=p.value, V=pvalv, B=pvalb), pval=pval, rho.est=rho[which.min(pval)]) )
+  return(list(p.value=c(A=p.value, V=pvalv, S=pvalb), pval=pval, rho.est=rho[which.min(pval)]) )
 }
+
+
 
