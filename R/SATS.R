@@ -1,7 +1,7 @@
 #' SNP-set association tests using GWAS Summary data
 #'
 #' Compute p-values for the SNP-set tests using GWAS Z-statistics: variance components test (VC), sum test (ST), and adaptive test (AT).
-#' With less than two values of \eqn{\rho}'s, it outputs only p-values for VC and BT.
+#' With less than two values of \eqn{\rho}'s, it outputs only p-values for VC and ST.
 #' @param  Z summary Z-statistics for a set of SNPs from GWAS
 #' @param  R SNP pairwise LD matrix
 #' @param  W SNP weights. Default to equal weights
