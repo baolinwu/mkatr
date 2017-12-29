@@ -19,7 +19,7 @@ KATpval(Q.all, lambda, acc = 0.01, lim = 1e+07)
 tail probability
 }
 \description{
-Use Davies' method and apply a relative error bound (avoid redundant computations).
+Use Davies' method and apply a relative error bound (avoid redundant computations): efficient and accurate.
 }
 \references{
 Wu,B., Guan,W., Pankow,J.S. (2016) On efficient and accurate calculation of significance p-values for sequence kernel association test of variant set. \emph{Annals of human genetics}, 80(2), 123-135.

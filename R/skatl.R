@@ -16,23 +16,24 @@ Liu.qval.mod = function(pval, lambda){
   (q.org - df)/sqrt(2*df)*sigmaQ + muQ
 }
 
-#' Accurate computation of the tail probability of quadfratic forms of central normal variables
-#'
-#' Compute the significance p-values of SKAT statistics accurately
-#' 
-#' @param  Q.all  quadratic statistics
-#' @param  lambda coefficients of mixture of 1-DF chi-square distributions
-#' @param  acc accuracy for the Davies method
-#' @param  lim number of integration terms for the Davies method
-#' @return tail probabilities of quadratic forms
-#' @export
-#' @references
-#' Davies R.B. (1980) Algorithm AS 155: The Distribution of a Linear Combination of chi-2 Random Variables. Journal of the Royal Statistical Society. Series C (Applied Statistics), 29(3), 323-333.
-#' 
-#' P. Duchesne, P. Lafaye de Micheaux (2010) Computing the distribution of quadratic forms: Further comparisons between the Liu-Tang-Zhang approximation and exact methods. Computational Statistics and Data Analysis, 54, 858-862.
-#'
-#' Wu,B., Guan,W., and Pankow,J.S. (2016) On efficient and accurate calculation of significance p-values for sequence kernel association test of variant set. Annals of Human Genetics, 80(2), 123-135.
-KAT.pval = function(Q.all, lambda, acc=1e-9,lim=1e8){
+## To be retired functions!
+## Accurate computation of the tail probability of quadfratic forms of central normal variables
+##
+## Compute the significance p-values of SKAT statistics accurately
+## 
+## @param  Q.all  quadratic statistics
+## @param  lambda coefficients of mixture of 1-DF chi-square distributions
+## @param  acc accuracy for the Davies method
+## @param  lim number of integration terms for the Davies method
+## @return tail probabilities of quadratic forms
+## @export
+## @references
+## Davies R.B. (1980) Algorithm AS 155: The Distribution of a Linear Combination of chi-2 Random Variables. Journal of the Royal Statistical Society. Series C (Applied Statistics), 29(3), 323-333.
+## 
+## P. Duchesne, P. Lafaye de Micheaux (2010) Computing the distribution of quadratic forms: Further comparisons between the Liu-Tang-Zhang approximation and exact methods. Computational Statistics and Data Analysis, 54, 858-862.
+##
+## Wu,B., Guan,W., and Pankow,J.S. (2016) On efficient and accurate calculation of significance p-values for sequence kernel association test of variant set. Annals of Human Genetics, 80(2), 123-135.
+KAT.pval0 = function(Q.all, lambda, acc=1e-9,lim=1e8){
   pval = rep(0, length(Q.all))
   i1 = which(is.finite(Q.all))
   for(i in i1){
@@ -41,6 +42,9 @@ KAT.pval = function(Q.all, lambda, acc=1e-9,lim=1e8){
   }
   return(pval)
 }
+KAT.pval = KATpval
+
+
 #' Fit a null binomial logistic regression model
 #'
 #' Fit a null binomial model to be used for variant set association test

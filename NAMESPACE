@@ -2,10 +2,8 @@
 
 export(KAT.cnull)
 export(KAT.null)
-export(KAT.pval)
 export(KATpval)
 export(SATS)
-export(SKAT.pval)
 export(SKATL)
 export(SKATOL)
 export(SKATOT)

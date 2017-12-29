@@ -1,5 +1,5 @@
-#' Reproduce the p-value from the SKAT R package
-#' @export
+## Reproduce the p-value from the SKAT R package
+## @export
 SKAT.pval <- function(Q.all, lambda){
   pval = rep(0, length(Q.all))
   i1 = which(is.finite(Q.all))
@@ -9,7 +9,7 @@ SKAT.pval <- function(Q.all, lambda){
   }
   return(pval)
 }
-####
+
 #' Sequence kernel association test (SKAT) using variant test statistics
 #'
 #' Reproduce the SKAT p-value (from the SKAT R package) using marginal variant score statistics
