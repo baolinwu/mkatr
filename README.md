@@ -1,5 +1,5 @@
 # mkatr
- - An R pacakge implementing various statistical methods for testing variant-set association
+ - An R package implementing various statistical methods for testing variant-set association
 
 ------
 ## On sequence-kernel association test of rare variant set

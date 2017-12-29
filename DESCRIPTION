@@ -2,7 +2,7 @@ Package: mkatr
 Title: Miscellaneous variant-set association test methods
 Version: 0.1.0
 Imports: 
-Description: An R pacakge implementing various statistical methods for testing variant-set association.
+Description: An R package implementing various statistical methods for testing variant-set association.
 Depends: R (>= 3.0.0)
 License: GPL (>= 2)
 LazyData: true
