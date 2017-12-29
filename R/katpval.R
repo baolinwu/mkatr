@@ -103,7 +103,7 @@ liua.param = function(lambda){
     list(l=l,d=d,muQ=muQ,muX=muX,sigmaQ=sigmaQ,sigmaX=sigmaX)
 }
 liua.qval <- function(pval, lambda){
-  param = liu1.param(lambda)
+  param = liua.param(lambda)
   Qx = qchisq(pval,df=param$l,ncp=param$d, lower.tail=FALSE)
   (Qx - param$muX)/param$sigmaX*param$sigmaQ + param$muQ
 }
