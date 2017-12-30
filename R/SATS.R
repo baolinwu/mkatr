@@ -69,6 +69,7 @@ SATS <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
     prec = prec*2
     p.value = try({ minP + integrate(katint, 0,q1, abs.tol=minP*prec)$val }, silent=TRUE)
   }
+  p.value = min(p.value,minP*L)
   return(list(p.value=c(A=p.value, V=pvalv, S=pvalb), pval=pval, rho.est=rho[which.min(pval)]) )
 }
 
