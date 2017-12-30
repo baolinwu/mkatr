@@ -2,10 +2,10 @@
 #'
 #' Compute p-values for the SNP-set tests using GWAS Z-statistics: variance components test (VC), sum test (ST), and adaptive test (AT).
 #' With less than two values of \eqn{\rho}'s, it outputs only p-values for VC and ST.
-#' @param  Z summary Z-statistics for a set of SNPs from GWAS
+#' @param  Z GWAS summary Z-statistics for a set of SNPs
 #' @param  R SNP pairwise LD matrix
 #' @param  W SNP weights. Default to equal weights
-#' @param  rho weights for burden test
+#' @param  rho weights for the ST
 #' @return 
 #' \describe{
 #'   \item{p.value}{ p-values for AT, VC, and ST }
