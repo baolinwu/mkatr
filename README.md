@@ -11,7 +11,7 @@
  R = cor(matrix(rnorm(500),100,5)*sqrt(0.8)+rnorm(100)*sqrt(0.2))
  Z0 = rnorm(5)
  SATS(Z0,R)
- Z = Z0 + 0:4
+ Z = Z0 + c(2,3,-1,2,-3)
  SATS(Z,R)
  Z = Z0 + c(2,3,4,2,3)
  SATS(Z,R)
