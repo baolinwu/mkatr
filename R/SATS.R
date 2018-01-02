@@ -56,7 +56,8 @@ SATS <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
   ## if( (minP>1e-4)|(minP<1e-7) )    return(list(p.value=c(A=minP, V=pvalv, B=pvalb), pval=pval) )
   L = length(rho)
   qval = rep(0,L1)
-  for(k in 1:L1) qval[k] = liua.qval(minP, Lamk[[k]])
+  ## for(k in 1:L1) qval[k] = liua.qval(minP, Lamk[[k]])
+  for (k in 1:L1) qval[k] = Liu0.qval(minP, Lamk[[k]])
   q1 = qchisq(minP,1,lower=FALSE)
   tauk = (1-rho1)*R2/R1 + rho1*R1
   katint = function(xpar){
