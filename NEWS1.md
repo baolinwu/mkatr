@@ -4,7 +4,7 @@
 ------
 ## SNP-set association tests using GWAS summary data
  - Reference
-    - Guo,B. and Wu,B. (2017) Statistical methods to detect novel genetic variants using publicly available GWAS summary data. *CBB*, under revision.
+    - Guo,B. and Wu,B. (2017) Statistical methods to detect novel genetic variants using publicly available GWAS summary data. *CBC*, under revision.
  - Implemented in the "SATS()" R function returning three test p-values: adaptive test (AT), variance components test (VC), sum test (ST)
  - Sample R codes
  ```r
