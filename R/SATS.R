@@ -15,7 +15,7 @@
 #' @keywords sats
 #' @export
 #' @references
-#' Guo,B., Wu,B.(2017). Statistical methods to detect novel genetic variants using publicly available GWAS summary data. tech report.
+#' Guo,B. and Wu,B.(2018). Statistical methods to detect novel genetic variants using publicly available GWAS summary data. \emph{CBC}, under revision.
 #' @examples
 #' R = cor(matrix(rnorm(500),100,5)*sqrt(0.8)+rnorm(100)*sqrt(0.2))
 #' Z = rnorm(5) + 0:4
@@ -53,6 +53,10 @@ sats <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
     pval[k] = KATpval(Qw[k],Lamk[[k]])
   }
   minP = min(pval)
+  ## for Sim
+  if( (minP>5e-6)|(minP<1e-7) ){
+    return( list(p.value=c(A=minP*2, S2=pvalv, S=pvalb), pval=pval, rho.est=rho[which.min(pval)]) )
+  }
   L = length(rho)
   qval = rep(0,L1)
   for (k in 1:L1) qval[k] = Liu0.qval(minP, Lamk[[k]])
