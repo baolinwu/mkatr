@@ -53,10 +53,7 @@ sats <- function(Z,R,W=NULL, rho=c((0:5/10)^2,0.5,1)){
     pval[k] = KATpval(Qw[k],Lamk[[k]])
   }
   minP = min(pval)
-  ## for Sim
-  if( (minP>5e-6)|(minP<1e-7) ){
-    return( list(p.value=c(A=minP*2, S2=pvalv, S=pvalb), pval=pval, rho.est=rho[which.min(pval)]) )
-  }
+  ##
   L = length(rho)
   qval = rep(0,L1)
   for (k in 1:L1) qval[k] = Liu0.qval(minP, Lamk[[k]])

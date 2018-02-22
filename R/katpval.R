@@ -12,6 +12,11 @@
 #'
 #' Guo,B. and Wu,B. (2017) Statistical methods to detect novel genetic variants using publicly available GWAS summary data. tech rep.
 KATpval <- function(Q.all, lambda, acc=1e-2,lim=1e7){
+  ## safe check
+  if( all(abs(lambda-lambda[1])/max(abs(lambda))<1e-10) ){
+    return( pchisq(Q.all/mean(lambda),length(lambda),lower=FALSE) )
+  }
+  ##
   pval = Liu.pval(Q.all,lambda)
   i1 = which(is.finite(Q.all))
   for(i in i1){
