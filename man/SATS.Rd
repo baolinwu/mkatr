@@ -32,6 +32,6 @@ Z = rnorm(5) + 0:4
 sats(Z,R)
 }
 \references{
-Guo,B. and Wu,B.(2018). Statistical methods to detect novel genetic variants using publicly available GWAS summary data. \emph{CBC}, under revision.
+Guo,B. and Wu,B.(2018). Statistical methods to detect novel genetic variants using publicly available GWAS summary data. \emph{CBC}, to appear.
 }
 \keyword{sats}
